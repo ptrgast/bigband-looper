@@ -1,0 +1,25 @@
+.metronome .tempo-value {
+    font-size: 2em;
+}
+
+.metronome .indicator {
+    border-radius: 50%;
+    // padding: $padding/1;
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    display: inline-block;
+    text-align: center;
+    background-color: #0f0f0f;
+    // transition: background-color 50ms linear;
+}
+
+.metronome .indicator.start {
+    background-color: #b63232;
+    color: white;
+}
+
+.metronome .indicator.beat {
+    background-color: #757575;
+    // color: white;
+}

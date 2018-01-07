@@ -1,0 +1,26 @@
+{
+  "name": "bigband-looper",
+  "version": "1.0.0",
+  "description": "Record loops and play along",
+  "main": "./dist/bigband.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ptrgast",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "p5": "^0.5.16"
+  },
+  "devDependencies": {
+    "browserify": "^14.5.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-typescript": "^3.2.3",
+    "gulp-util": "^3.0.8",
+    "tsify": "^3.0.4",
+    "typescript": "^2.6.2",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.9.0"
+  }
+}

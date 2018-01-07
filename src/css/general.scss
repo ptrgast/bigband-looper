@@ -1,0 +1,35 @@
+$font-size: 20px;
+$border-radius: 3px;
+$padding: 1em;
+$components-margin: 0.5em;
+$col-primary: #d3cca8;
+$col-secondary: #9c998d;
+
+body {
+    background-color: #2c2b29;
+    color: $col-primary;
+    padding: $padding*2;
+    font-size: $font-size;
+}
+
+button {
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: $border-radius;
+    background-color: #d8bc2e;
+    color: #000000;
+}
+
+button:active {
+    border: 1px solid #d4b30c;
+    background-color: #fad729;
+    color: #000000;
+}
+
+.row {
+    margin-bottom: $components-margin;
+}
+
+button {
+    margin-bottom: $components-margin;
+}
