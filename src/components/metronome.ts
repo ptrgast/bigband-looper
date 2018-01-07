@@ -20,7 +20,7 @@ export default class Metronome extends Component implements ClockListener {
     private indicatorElem;
 
     public constructor(public tempo: number = DEFAULT_TEMPO, public totalBeats: number = DEFAULT_BEATS) {
-        super("div", "metronome");
+        super("div", "metronome col-md-12");
         this.setContent(`
             <div class="row">
                 <div class='tempo col-xs-6'>

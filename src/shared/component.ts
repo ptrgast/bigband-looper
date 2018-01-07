@@ -1,14 +1,19 @@
 export default class Component {
 
     private root;
+    private pane;
 
     public constructor(private type: string="div", private className?: string) {
         this.root = document.createElement(type);        
         this.root.className = "component " + (this.className != null ? this.className : "");
+        this.pane = document.createElement("div");        
+        this.pane.className = "pane";
+
+        this.root.appendChild(this.pane);
     }
 
     public setContent(content:string):void {
-        this.root.innerHTML = content;
+        this.pane.innerHTML = content;
     }
 
     public getByClass(className:string) {

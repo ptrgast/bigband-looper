@@ -1,4 +1,10 @@
 .component {
+    padding-right: $components-margin/2;
+    padding-left: $components-margin/2;
+    margin-bottom: $components-margin;
+}
+
+.component > .pane {
     background-color: #3f3e3c;
     border-radius: $border-radius;
     padding: $padding;
