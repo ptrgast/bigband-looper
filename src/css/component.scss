@@ -2,7 +2,10 @@
     background-color: #3f3e3c;
     border-radius: $border-radius;
     padding: $padding;
+    // box-shadow: #0a0a0a -1px 1px 5px;
     // margin: $padding/4;
+    border: 1px solid #494847;
+    outline: 5px solid #3f3e3c;
 }
 
 .component > .pane > .row {
