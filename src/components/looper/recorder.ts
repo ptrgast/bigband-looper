@@ -2,36 +2,56 @@ import * as p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
 import 'p5/lib/addons/p5.dom';
 
+enum Status {
+    UNAUTHORIZED,
+    READY,
+    RECORDING
+}
+
 class Recorder {
 
     static input = new p5.AudioIn();
 
+    private status = Status.UNAUTHORIZED;
     private soundRecorder = null;
     private track = null;
 
     public constructor() {
-        // Request audio input from user
-        Recorder.input.start();
-        
-        this.soundRecorder = new p5.SoundRecorder();
-        this.soundRecorder.setInput(Recorder.input);
 
-        console.log("Recorder ready");
+    }
+    
+    public requestAudioInput() {
+        // Request audio input from user
+        Recorder.input.start(
+            ()=>{
+                // Success
+                this.status = Status.READY;
+                this.soundRecorder = new p5.SoundRecorder();
+                this.soundRecorder.setInput(Recorder.input);
+            }
+        );
     }
 
     public record() {
-        if (this.track == null) {
-            console.log("Recording...");        
+        if (this.status == Status.READY) {
+            this.status = Status.RECORDING;
             this.track = new p5.SoundFile();
             this.soundRecorder.record(this.track);
+            return true;
+        } else {
+            return false;
         }
     }
 
     public stop() {
-        this.soundRecorder.stop();
-        var currentTrack = this.track;
-        this.track = null;
-        return currentTrack;        
+        if (this.status == Status.RECORDING) {
+            this.soundRecorder.stop();
+            this.status = Status.READY;
+            var currentTrack = this.track;
+            return this.track;        
+        } else {
+            return false;
+        }
     }
 
 }

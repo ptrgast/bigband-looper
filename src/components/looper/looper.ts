@@ -23,6 +23,7 @@ export default class Looper extends Component implements MetronomeListener {
     private track;
     private recordLength;
     private statusElement;
+    private trackInfoElem;
     private triggerButton;
     private clearButton;
 
@@ -33,16 +34,20 @@ export default class Looper extends Component implements MetronomeListener {
         this.setContent(`
             <div class="clearfix">
                 <span class='title'>Track ${this.id}</span>
-                <span class='pull-right'><span class='status'></span></span>
+                <span class='pull-right'>
+                    <span class='track-info'></span>
+                    <span class='status'></span>
+                </span>
             </div>
             <div class='text-center'>
-                <button class='btn-trigger'>Record</button>
+                <button class='btn-trigger'>Rec</button>
             </div>
             <div class='text-center'>
                 <button class='secondary small btn-clear'>Clear</button>
             </div>
         `);
         this.statusElement = this.getByClass("status");
+        this.trackInfoElem = this.getByClass("track-info");
         this.triggerButton = this.getByClass("btn-trigger");
         this.triggerButton.onclick = () => {this.trigger();};
         this.clearButton = this.getByClass("btn-clear");
@@ -66,7 +71,7 @@ export default class Looper extends Component implements MetronomeListener {
             case Status.SYNC_TO_RECORD:
                 this.status = Status.IDLE;
                 this.statusElement.innerHTML = "";
-                this.triggerButton.innerHTML = "Record";
+                this.triggerButton.innerHTML = "Rec";
                 break;
             case Status.RECORDING:
                 this.syncToPlay();
@@ -75,10 +80,7 @@ export default class Looper extends Component implements MetronomeListener {
                 this.stop();
                 break;
             case Status.STOPPED:
-                this.status = Status.SYNC_TO_PLAY;
-                this.statusElement.innerHTML = "Wait";
-                this.triggerButton.innerHTML = "Stop";
-                this.triggerButton.className = "btn-trigger wait";
+                this.syncToPlay();
                 break;
         }
 
@@ -94,19 +96,13 @@ export default class Looper extends Component implements MetronomeListener {
         }
         this.statusElement.innerHTML = "";
         this.statusElement.className = "status";
-        this.triggerButton.innerHTML = "Record";
+        this.triggerButton.innerHTML = "Rec";
         this.triggerButton.className = "btn-trigger";
     }
 
     public onRecordTick(beat: number, total: number): void {
         if (this.status == Status.SYNC_TO_RECORD && beat==1) {
-            this.recordLength = 0;
-            recorder.record();
-            this.status = Status.RECORDING;            
-            this.statusElement.innerHTML = "&bull; Recording";
-            this.statusElement.className = "status recording";
-            this.triggerButton.innerHTML = "Play";
-            this.triggerButton.className = "btn-trigger recording";
+            this.record();
         } 
 
         if (this.status == Status.RECORDING) {
@@ -148,6 +144,23 @@ export default class Looper extends Component implements MetronomeListener {
         this.status = Status.SYNC_TO_RECORD;
         this.statusElement.innerHTML = "Get ready";
         this.triggerButton.className = "btn-trigger wait";
+    }
+
+    private record(): void {
+        this.recordLength = 0;
+        if (recorder.record()) {
+            this.status = Status.RECORDING;
+            this.statusElement.innerHTML = "&bull; Recording";
+            this.statusElement.className = "status recording";
+            this.triggerButton.innerHTML = "Play";
+            this.triggerButton.className = "btn-trigger recording";
+        } else {
+            this.status = Status.IDLE;
+            this.statusElement.innerHTML = "";
+            this.statusElement.className = "status";
+            this.triggerButton.innerHTML = "Rec";
+            this.triggerButton.className = "btn-trigger recording";
+        }
     }
 
     private syncToPlay(): void {
