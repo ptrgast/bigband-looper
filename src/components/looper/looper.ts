@@ -34,8 +34,7 @@ export default class Looper extends Component implements MetronomeListener {
         this.setContent(`
             <div class="clearfix">
                 <span class='title'>Track ${this.id}</span>
-                <span class='pull-right'>
-                    <span class='track-info'></span>
+                <span class='pull-right'>                    
                     <span class='status'></span>
                 </span>
             </div>
@@ -45,6 +44,7 @@ export default class Looper extends Component implements MetronomeListener {
             <div class='text-center'>
                 <button class='secondary small btn-clear'>Clear</button>
             </div>
+            <div class='track-info'></div>
         `);
         this.statusElement = this.getByClass("status");
         this.trackInfoElem = this.getByClass("track-info");
@@ -137,6 +137,7 @@ export default class Looper extends Component implements MetronomeListener {
                 this.track.beat = 1;
                 this.track.play();
             }
+            this.trackInfoElem.innerHTML = this.track.beat+"/"+this.track.total;
         }
     }
 
