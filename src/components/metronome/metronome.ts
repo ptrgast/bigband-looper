@@ -1,6 +1,6 @@
-import Clock from "./../shared/clock";
-import Component from "./../shared/component";
-import { ClockListener } from "../shared/clock-listener";
+import Component from "./../../shared/component";
+import Clock from "./clock";
+import { ClockListener } from "./clock-listener";
 
 const DEFAULT_TEMPO = 60;
 const DEFAULT_BEATS = 4;
