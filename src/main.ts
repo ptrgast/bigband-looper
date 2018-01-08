@@ -3,9 +3,9 @@ import Looper from "./components/looper";
 import Clock from "./shared/clock";
 
 var m = new Metronome(100, 4);
-m.appendTo("header");
+m.appendTo("metronome-container");
 
-new Looper(m).appendTo("loopers");
-new Looper(m).appendTo("loopers");
-new Looper(m).appendTo("loopers");
-new Looper(m).appendTo("loopers");
+new Looper(m).appendTo("loopers-container");
+new Looper(m).appendTo("loopers-container");
+new Looper(m).appendTo("loopers-container");
+new Looper(m).appendTo("loopers-container");

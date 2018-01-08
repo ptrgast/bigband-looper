@@ -39,7 +39,7 @@ export default class Looper extends Component implements MetronomeListener {
                 <button class='btn-trigger'>Record</button>
             </div>
             <div class='text-center'>
-                <button class='btn-clear'>Clear</button>
+                <button class='secondary small btn-clear'>Clear</button>
             </div>
         `);
         this.statusElement = this.getByClass("status");

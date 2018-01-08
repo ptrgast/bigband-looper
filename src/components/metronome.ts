@@ -17,16 +17,19 @@ export default class Metronome extends Component implements ClockListener {
     private tempoElem;
     private tempoIncreaseButton;
     private tempoDecreaseButton;
+    private beatsElem;
+    private beatsIncreaseButton;
+    private beatsDecreaseButton;
     private indicatorElem;
 
     public constructor(public tempo: number = DEFAULT_TEMPO, public totalBeats: number = DEFAULT_BEATS) {
-        super("div", "metronome col-md-12");
+        super("div", "metronome");
         this.setContent(`
             <div class="row">
                 <div class='tempo col-xs-6'>
                     <button class='btn-tempo-dec'>-</button>
                     <button class='btn-tempo-inc'>+</button>
-                    <span class='tempo-value'>--</span> BPM
+                    <span class='tempo-value'>--</span> <small>BPM</small>
                 </div>            
                 <div class='col-xs-6 text-right'>
                     <div>
@@ -36,12 +39,12 @@ export default class Metronome extends Component implements ClockListener {
             </div>
             <div class="row">
                 <div class='tempo col-xs-6'>
-                    <button>-</button>
-                    <button>+</button>
-                    <span class='beat'>4</span> BEATS in bar
+                    <button class='btn-beats-dec'>-</button>
+                    <button class='btn-beats-inc'>+</button>
+                    <span class='beats-value'>-</span> <small>BEATS in bar</small>
                 </div>            
                 <div class='col-xs-6 text-right'>
-                    <button>TAP TEMPO</button>
+                    <button class="secondary">TAP TEMPO</button>
                 </div>
             </div>
         `);
@@ -49,6 +52,9 @@ export default class Metronome extends Component implements ClockListener {
         this.tempoElem = this.getByClass('tempo-value');
         this.tempoDecreaseButton = this.getByClass('btn-tempo-dec');
         this.tempoIncreaseButton = this.getByClass('btn-tempo-inc');
+        this.beatsElem = this.getByClass('beats-value');
+        this.beatsDecreaseButton = this.getByClass('btn-beats-dec');
+        this.beatsIncreaseButton = this.getByClass('btn-beats-inc');
         this.indicatorElem = this.getByClass('indicator');
         
         this.tempoDecreaseButton.onclick = (): void => {
@@ -56,7 +62,14 @@ export default class Metronome extends Component implements ClockListener {
         }
         this.tempoIncreaseButton.onclick = (): void => {
             this.setTempo(this.tempo+5);
-        }        
+        }     
+        
+        this.beatsDecreaseButton.onclick = (): void => {
+            this.setBeatsInBar(this.totalBeats - 1);
+        }
+        this.beatsIncreaseButton.onclick = (): void => {
+            this.setBeatsInBar(this.totalBeats + 1);
+        }  
         
         this.clock = new Clock();
         this.clock.addListener(this);
@@ -66,6 +79,7 @@ export default class Metronome extends Component implements ClockListener {
         this.clock.start();
 
         this.setTempo(this.tempo);
+        this.setBeatsInBar(this.totalBeats);
     }
 
     public setTempo(tempo: number) {
@@ -77,6 +91,14 @@ export default class Metronome extends Component implements ClockListener {
         this.tempo = tempo;
         this.tempoElem.innerHTML = tempo;
         this.clock.setInterval(this.calculateInterval());
+    }
+
+    public setBeatsInBar(total: number) {
+        if (total<1) {
+            total = 1;
+        }
+        this.totalBeats = total;
+        this.beatsElem.innerHTML = this.totalBeats;
     }
 
     public addListener(listener: MetronomeListener) {
