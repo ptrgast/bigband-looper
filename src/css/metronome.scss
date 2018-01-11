@@ -23,3 +23,13 @@
     background-color: #757575;
     // color: white;
 }
+
+.metronome .tempo .lbl {
+    display: inline-block;
+    transform: rotate(-90deg);
+}
+
+.metronome .beats .lbl {
+    display: inline-block;
+    line-height: 1em;
+}

@@ -26,10 +26,13 @@ export default class Metronome extends Component implements ClockListener {
         super("div", "metronome");
         this.setContent(`
             <div class="row">
-                <div class='tempo col-xs-6'>
-                    <button class='btn-tempo-dec'>-</button>
-                    <button class='btn-tempo-inc'>+</button>
-                    <span class='tempo-value'>--</span> <small>BPM</small>
+                <div class='tempo col-xs-6 middle'>
+                    <div class="btn-pair">
+                        <button class='btn-tempo-dec'>-</button>
+                        <button class='btn-tempo-inc'>+</button>
+                    </div>
+                    <span class='tempo-value'>--</span> 
+                    <span class='lbl'>BPM</span>
                 </div>            
                 <div class='col-xs-6 text-right'>
                     <div>
@@ -38,10 +41,13 @@ export default class Metronome extends Component implements ClockListener {
                 </div>
             </div>
             <div class="row">
-                <div class='tempo col-xs-6'>
-                    <button class='btn-beats-dec'>-</button>
-                    <button class='btn-beats-inc'>+</button>
-                    <span class='beats-value'>-</span> <small>BEATS in bar</small>
+                <div class='beats col-xs-6 middle'>
+                    <div class="btn-pair">
+                        <button class='btn-beats-dec'>-</button>
+                        <button class='btn-beats-inc'>+</button>
+                    </div>
+                    <span class='beats-value'>-</span> 
+                    <span class='lbl'>BEATS <br> in bar</span>
                 </div>            
                 <div class='col-xs-6 text-right'>
                     <button class="secondary">TAP TEMPO</button>
