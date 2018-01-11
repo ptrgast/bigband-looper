@@ -1,5 +1,5 @@
 export interface ClockListener {
 
-    onTick: (offset: number) => void;
+    onTick: (name: string, offset: number) => void;
 
 }

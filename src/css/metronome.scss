@@ -25,11 +25,22 @@
 }
 
 .metronome .tempo .lbl {
-    display: inline-block;
     transform: rotate(-90deg);
 }
 
 .metronome .beats .lbl {
-    display: inline-block;
     line-height: 1em;
+}
+
+.metronome .editable {
+    font-size: 0.8em;
+    display: inline-block;
+    text-align: center;
+    min-width: 2em;
+    border-bottom: 1px dotted $col-secondary;
+    cursor: pointer;
+}
+
+.metronome .editable:hover {
+    border-bottom: 1px solid $col-primary;
 }

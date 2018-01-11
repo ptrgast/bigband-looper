@@ -1,5 +1,6 @@
 $font-size: 20px;
 $border-radius: 0px;
+$btn-border-radius: 3px;
 $padding: 0.5em;
 $components-margin: 1em;
 $col-primary: #d3cca8;
@@ -16,7 +17,7 @@ body {
 button {
     border: 1px solid transparent;
     outline: none;
-    border-radius: $border-radius;
+    border-radius: $btn-border-radius;
     background-color: #d8bc2e;
     color: #000000;
 }
@@ -59,7 +60,8 @@ button:active {
 }
 
 .lbl {
-    font-size: 0.6em;
+    display: inline-block;
+    font-size: 0.5em;
     color: $col-secondary;
 }
 

@@ -34,18 +34,19 @@ export default class Clock {
         this.startTime = this.now();
     }
 
-    public addListener(listener: ClockListener, offset: number = 0): void {
+    public addListener(listener: ClockListener, name: string = "", offset: number = 0): void {
         var bundle = {
             receiver: listener,
+            name: name,
             offset: offset
         };
         this.listeners.push(bundle);
     }
 
-    public setListener(listener: ClockListener, offset: number = 0):void {
+    public setListener(listener: ClockListener, name: string = "", offset: number = 0): void {
         var bundle = null;
         for (var i=0; i<this.listeners.length; i++) {
-            if (this.listeners[i].receiver == listener) {
+            if (this.listeners[i].receiver == listener && this.listeners[i].name == name) {
                 bundle = this.listeners[i];
                 break;
             }    
@@ -53,6 +54,7 @@ export default class Clock {
         if (bundle == null) {
             bundle = {
                 receiver: listener,
+                name: name,
                 offset: offset
             };
             this.listeners.push(bundle);
@@ -79,7 +81,7 @@ export default class Clock {
         for (var i = this.queue.length-1; i >= 0; i--) {
             var bundle = this.queue[i];
             if ((bundle.offset >=0 && dt >= bundle.offset) || (bundle.offset < 0 && dt >= this.interval+bundle.offset)) {
-                bundle.receiver.onTick(bundle.offset);
+                bundle.receiver.onTick(bundle.name, bundle.offset);
                 this.queue.splice(i, 1);
             }
         }
@@ -101,6 +103,7 @@ export default class Clock {
 interface OffsetListenerBundle {
 
     receiver: ClockListener;
+    name: string;
     offset: number;
 
 }
