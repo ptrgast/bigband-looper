@@ -1,4 +1,4 @@
-import Component from "./../../shared/component";
+import Component from "./../component";
 import Clock from "./clock";
 import { ClockListener } from "./clock-listener";
 

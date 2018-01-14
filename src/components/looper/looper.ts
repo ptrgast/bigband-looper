@@ -1,5 +1,5 @@
 import recorder from "./recorder";
-import Component from "./../../shared/component";
+import Component from "./../component";
 import Metronome from "./../metronome/metronome";
 import {MetronomeListener} from "./../metronome/metronome";
 
