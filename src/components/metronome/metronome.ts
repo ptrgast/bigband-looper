@@ -27,7 +27,7 @@ export default class Metronome extends Component implements ClockListener {
     private playbackOffsetElem;
 
     public constructor(public tempo: number = DEFAULT_TEMPO, public totalBeats: number = DEFAULT_BEATS) {
-        super("div", "metronome");
+        super("div", "metronome component");
         this.setContent(`
             <div class="row">
                 <div class='col-xs-6'>

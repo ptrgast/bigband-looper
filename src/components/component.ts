@@ -5,7 +5,7 @@ export default class Component {
 
     public constructor(private type: string="div", private className?: string) {
         this.root = document.createElement(type);        
-        this.root.className = "component " + (this.className != null ? this.className : "");
+        this.root.className = this.className != null ? this.className : "";
         this.pane = document.createElement("div");        
         this.pane.className = "pane";
 

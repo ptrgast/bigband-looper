@@ -28,7 +28,7 @@ export default class Looper extends Component implements MetronomeListener {
     private clearButton;
 
     public constructor(private metronome: Metronome) {
-        super("div", "looper col-xs-6 col-sm-3");
+        super("div", "looper component col-xs-6 col-sm-3");
         this.id = ++Looper.trackCounter;        
         
         this.setContent(`
