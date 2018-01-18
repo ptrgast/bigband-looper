@@ -4,15 +4,15 @@ import { ClockListener } from "./clock-listener";
 
 const DEFAULT_TEMPO = 60;
 const DEFAULT_BEATS = 4;
-const DEFAULT_RECORD_OFFSET = -50;
-const DEFAULT_PLAYBACK_OFFSET = -230;
+const DEFAULT_RECORD_OFFSET = -40;
+const DEFAULT_PLAYBACK_OFFSET = -208;
 
 export default class Metronome extends Component implements ClockListener {
 
     private clock = null;
     private currentBeat: number = 1;    
     private listeners: MetronomeListener[] = [];
-    private indicatorOffOffset = 100;
+    private indicatorOffOffset = 80;
     private recordOffset = 0;
     private playbackOffset = 0;
 
