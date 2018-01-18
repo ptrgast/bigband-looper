@@ -27,19 +27,38 @@ export default class LooperManager extends Component implements InputListener {
         this.loopersElem = this.getByClass('loopers');
         this.addButton = this.getByClass('btn-looper-add');
 
-        this.addButton.onclick = () => {this.addLooper();}
+        this.addButton.onclick = () => {this.pushLooper();}
 
         this.metronome = metronome;
 
-        this.addLooper();
+        this.pushLooper();
     }
 
-    private addLooper(): void {
-        if (this.loopers.length < MAX_LOOPERS ) {            
+    private pushLooper(): void {
+        if (this.loopers.length < MAX_LOOPERS ) {  
+            this.unfocusAll();          
             var looper = new Looper(this.metronome);
+            looper.focus();
             this.loopers.push(looper);
             looper.appendTo(this.loopersElem);
             this.selectedLooperIndex = this.loopers.length-1;
+        }
+    }
+
+    private popLooper(): void {
+        if (this.loopers.length>1) {
+            var popped = this.loopers.pop();
+            popped.clear();
+            this.loopersElem.removeChild(popped.getRoot());
+            this.unfocusAll();     
+            this.selectedLooperIndex = this.loopers.length-1;
+            this.loopers[this.selectedLooperIndex].focus(true);
+        }
+    }
+
+    private unfocusAll(): void {
+        for (var i=0; i<this.loopers.length; i++) {
+            this.loopers[i].focus(false);
         }
     }
 
@@ -49,6 +68,10 @@ export default class LooperManager extends Component implements InputListener {
                 this.loopers[this.selectedLooperIndex].trigger();
             } else if (event == InputEvent.CLEAR) {
                 this.loopers[this.selectedLooperIndex].clear();
+            } else if (event == InputEvent.PUSH_TRACK) {
+                this.pushLooper();
+            } else if (event == InputEvent.POP_TRACK) {
+                this.popLooper();
             }
         }
 

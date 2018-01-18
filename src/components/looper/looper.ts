@@ -60,6 +60,15 @@ export default class Looper extends Component implements MetronomeListener {
         metronome.addListener(this);
     }
 
+    public focus(focus: boolean = true): void {
+        var root = this.getRoot();
+        if (focus) {
+            root.classList.add('focused');
+        } else {
+            root.classList.remove('focused');
+        }
+    }
+
     public trigger(): void {
         this.statusElement.className = "status";
         this.triggerButton.className = "btn-trigger";
@@ -98,6 +107,13 @@ export default class Looper extends Component implements MetronomeListener {
         this.statusElement.className = "status";
         this.triggerButton.innerHTML = "Rec";
         this.triggerButton.className = "btn-trigger";
+    }
+
+    public hasTrack(): boolean {
+        if (this.status == Status.SYNC_TO_PLAY || this.status == Status.PLAYING || this.status == Status.STOPPED) {
+            return true;
+        }
+        return false;
     }
 
     public onRecordTick(beat: number, total: number): void {

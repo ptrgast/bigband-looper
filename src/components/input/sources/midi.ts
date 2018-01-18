@@ -39,7 +39,7 @@ export default class MidiInput extends InputSource {
     }
 
     public onMidiInput(message: any): void {
-        console.log(message.data);
+        // console.log(message.data);
         if (this.isMessage(message, 176, 64)) {
             if (this.getValue(message) > 0) {
                 this.feed(InputEvent.TRIGGER, true);

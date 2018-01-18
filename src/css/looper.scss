@@ -64,3 +64,13 @@
     right: 1em;
     font-size: 0.8em;
 }
+
+.looper.focused .pane {
+    border-color: $col-primary;
+    background-color: lighten($col-pane, 5%);
+    outline-color: lighten($col-pane, 5%);    
+}
+
+.looper.focused .title {
+    color: $col-primary;    
+}

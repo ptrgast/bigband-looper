@@ -24,9 +24,14 @@ export default abstract class InputSource implements GestureListener {
     }
 
     public onGestureCompleted(gesture: Gesture) {
+        console.log(gesture);
         if (gesture.repetitions == 1 && gesture.duration < 500) {
             this.fire(InputEvent.TRIGGER);
         } else if (gesture.repetitions == 1 && gesture.duration >= 500) {
+            this.fire(InputEvent.POP_TRACK);
+        } else if (gesture.repetitions == 2 && gesture.duration < 500) {
+            this.fire(InputEvent.PUSH_TRACK);
+        } else if (gesture.repetitions == 3) {
             this.fire(InputEvent.CLEAR);
         }
         // console.log(gesture);

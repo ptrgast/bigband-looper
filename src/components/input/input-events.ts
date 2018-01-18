@@ -1,6 +1,6 @@
 export enum InputEvent {
     TRIGGER,
-    NEXT_TRACK,
-    PREVIOUS_TRACK,
+    PUSH_TRACK,
+    POP_TRACK,
     CLEAR
 }
