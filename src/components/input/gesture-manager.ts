@@ -1,6 +1,6 @@
 import { InputEvent } from "./input-events";
 
-const GESTURE_TIMEOUT = 140;
+const GESTURE_TIMEOUT = 150;
 
 export default class GestureManager implements GestureListener {
 
