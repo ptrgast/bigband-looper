@@ -7,6 +7,7 @@ export default class KeyboardInput extends InputSource {
     public constructor() {
         super();
         window.onkeydown = (event: KeyboardEvent) => {this.onKeyDown(event);}
+        window.onkeyup = (event: KeyboardEvent) => {this.onKeyUp(event);}
     }
 
     public getName(): string {
@@ -14,9 +15,14 @@ export default class KeyboardInput extends InputSource {
     }
 
     public onKeyDown(event: KeyboardEvent): void {
-        // console.log(event);
         if (event.keyCode == 32) {
-            this.fire(InputEvent.TRIGGER);
+            this.feed(InputEvent.TRIGGER, true);
+        }
+    }
+
+    public onKeyUp(event: KeyboardEvent): void {
+        if (event.keyCode == 32) {
+            this.feed(InputEvent.TRIGGER, false);
         }
     }
 

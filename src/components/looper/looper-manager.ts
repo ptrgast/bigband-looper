@@ -44,9 +44,14 @@ export default class LooperManager extends Component implements InputListener {
     }
 
     public onInput(event: InputEvent): boolean {
-        if (event == InputEvent.TRIGGER && this.selectedLooperIndex != null) {
-            this.loopers[this.selectedLooperIndex].trigger();
+        if (this.selectedLooperIndex != null) {
+            if (event == InputEvent.TRIGGER) {
+                this.loopers[this.selectedLooperIndex].trigger();
+            } else if (event == InputEvent.CLEAR) {
+                this.loopers[this.selectedLooperIndex].clear();
+            }
         }
+
         return false;
     }
 

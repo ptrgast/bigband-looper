@@ -87,7 +87,7 @@ export default class Looper extends Component implements MetronomeListener {
     }
 
     public clear(): void {
-        this.status == Status.IDLE;
+        this.status = Status.IDLE;
         if (this.track != null) {
             this.track.stop();
             this.track = null;

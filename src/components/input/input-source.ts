@@ -1,9 +1,15 @@
 import InputListener from "./input-listener";
 import { InputEvent } from "./input-events";
+import GestureManager, { GestureListener, Gesture } from "./gesture-manager";
 
-export default abstract class InputSource {
+export default abstract class InputSource implements GestureListener {
 
     private listener: InputListener;
+    private gestureManager: GestureManager;
+
+    public constructor() {
+        this.gestureManager = new GestureManager(this);
+    }
 
     public getName(): string {
         return "Untitled Source";
@@ -13,10 +19,24 @@ export default abstract class InputSource {
         this.listener = listener;
     }
 
-    protected fire(event: InputEvent) {
+    protected feed(event: InputEvent, down: boolean): void {
+        this.gestureManager.addEvent(event, down);
+    }
+
+    public onGestureCompleted(gesture: Gesture) {
+        if (gesture.repetitions == 1 && gesture.duration < 500) {
+            this.fire(InputEvent.TRIGGER);
+        } else if (gesture.repetitions == 1 && gesture.duration >= 500) {
+            this.fire(InputEvent.CLEAR);
+        }
+        // console.log(gesture);
+    }
+
+    private fire(event: InputEvent): void {
         if (this.listener != null) {
             this.listener.onInput(event);
         }
     }
 
 }
+
