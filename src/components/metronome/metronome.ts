@@ -1,11 +1,14 @@
 import Component from "./../component";
 import Clock from "./clock";
 import { ClockListener } from "./clock-listener";
+import * as p5 from 'p5';
+import 'p5/lib/addons/p5.sound';
 
 const DEFAULT_TEMPO = 60;
 const DEFAULT_BEATS = 4;
-const DEFAULT_RECORD_OFFSET = -40;
-const DEFAULT_PLAYBACK_OFFSET = -208;
+const DEFAULT_BEAT_SOUND_OFFSET = -15;
+const DEFAULT_RECORD_OFFSET = -30;
+const DEFAULT_PLAYBACK_OFFSET = -190;
 
 export default class Metronome extends Component implements ClockListener {
 
@@ -13,8 +16,10 @@ export default class Metronome extends Component implements ClockListener {
     private currentBeat: number = 1;    
     private listeners: MetronomeListener[] = [];
     private indicatorOffOffset = 80;
+    private beatSoundOffset = 0;
     private recordOffset = 0;
     private playbackOffset = 0;
+    private beatSound = null;
 
     private tempoElem;
     private tempoIncreaseButton;
@@ -23,6 +28,7 @@ export default class Metronome extends Component implements ClockListener {
     private beatsIncreaseButton;
     private beatsDecreaseButton;
     private indicatorElem;
+    private beatSoundOffsetElem;
     private recordOffsetElem;
     private playbackOffsetElem;
 
@@ -57,12 +63,16 @@ export default class Metronome extends Component implements ClockListener {
                         <span class='lbl'>CALIBRATION</span>
                     </div>
                     <div>
+                        <span class='beatsound-offset-value editable'>-</span>
+                        <span class='lbl'>beat sound offset (ms)</span>
+                    </div>                    
+                    <div>
                         <span class='record-offset-value editable'>-</span>
-                        <span class='lbl'>record <br> offset (ms)</span>
+                        <span class='lbl'>record offset (ms)</span>
                     </div>
                     <div>
                         <span class='playback-offset-value editable'>-</span>
-                        <span class='lbl'>playback <br> offset (ms)</span>
+                        <span class='lbl'>playback offset (ms)</span>
                     </div>
                 </div>            
                 <div class='col-xs-2 text-right'>
@@ -80,6 +90,7 @@ export default class Metronome extends Component implements ClockListener {
         this.beatsDecreaseButton = this.getByClass('btn-beats-dec');
         this.beatsIncreaseButton = this.getByClass('btn-beats-inc');
         this.indicatorElem = this.getByClass('indicator');
+        this.beatSoundOffsetElem = this.getByClass('beatsound-offset-value');
         this.recordOffsetElem = this.getByClass('record-offset-value');
         this.playbackOffsetElem = this.getByClass('playback-offset-value');
         
@@ -100,6 +111,12 @@ export default class Metronome extends Component implements ClockListener {
         }
 
         // offsets
+        this.beatSoundOffsetElem.onclick = (): void => {
+            var value = prompt("Beat sound offset (ms)", String(this.beatSoundOffset));
+            if (value != null) {
+                this.setBeatSoundOffset(Number(value));
+            }
+        }        
         this.recordOffsetElem.onclick = (): void => {
             var value = prompt("Record offset (ms)", String(this.recordOffset));
             if (value != null) {
@@ -113,9 +130,15 @@ export default class Metronome extends Component implements ClockListener {
             }
         }
 
+        // var p = new p5();
+        this.beatSound = (new p5()).loadSound('data:audio/wav;base64,UklGRkwCAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YSgCAAD//1sAlAJZAsQEkPvhBRENDAYgEfQC0AjvDpgejBURCnoF2AZ3D8cTnCAUDMATMP3zAnb+Ru6r89QGaRDI+ZrnDeSIA1j9cw08CFAL3fN8+rkLqv7n7mD40voXATAAGgmEFjf/Gww4HaMXeSDzIwovCBJ4Iq0cowafH34aJAHrCDgT+P80CaYFyfZmDMIQjQI/FHQjORWKA5AB5RHgD4kXugqxFOcTgftk7Zb5Sf24Ey//TPYq7CjzSwuiAGYFbxD3CBj7nBD7DsoChAI3+rsT2AOWB271GA+a+7UM0AuNE4QZ7/x8CS4HVwPLAKr/BfY69PgD+fbW+/cJ1gdICIHydgxO+SsL6vrj6McIiw+F/EAFPBhzIkka3f5jDmgeKimZMcwOYBD6BKsDcP0mDHoUzh5ZHbYJ6hOwGCAfuywGGwALzSC3KKAXtQ9RDuEMawgU9zEUrxpIAkP6qxWwC3EBqgEGDPwFTAX+ByIBXxGOAu0NcgaE+3gCaBLsA9H85gKr8qf32fCf78f11fAGBCACz/gV+dLwpv3z8Mr4DfFg863s++Sp8fn48f0L+Zr/Qfi7/GP2pfSr7T3oEPfr88DvTvnk/ePyYfmDAWr/Hv0gAYcEKP1XAdn51fdo9Zj9ZwMWBiz8Xvzw/7UEjwUlBcj/PwNQBOcD8QHBAhEFbAMDBRUEFwY4BSoDaABrA0YCUALWAoABywJeAF0AIAFyAKj/fv8aACgA/v8=');
+
+        // this.beatSound.preload();
+
         this.clock = new Clock();
         this.clock.addListener(this, "metronome");
         this.clock.addListener(this, "indicator", this.indicatorOffOffset);
+        this.setBeatSoundOffset(DEFAULT_BEAT_SOUND_OFFSET);
         this.setRecordOffset(DEFAULT_RECORD_OFFSET);
         this.setPlaybackOffset(DEFAULT_PLAYBACK_OFFSET);
         this.clock.start();
@@ -141,6 +164,15 @@ export default class Metronome extends Component implements ClockListener {
         }
         this.totalBeats = total;
         this.beatsElem.innerHTML = this.totalBeats;
+    }
+
+    public setBeatSoundOffset(offset: number): void {
+        if (isNaN(offset)) { offset = 0; }
+        if (offset > 1500) { offset = 1500; }
+        else if (offset < -1500) { offset = -1500; }
+        this.beatSoundOffset = offset;
+        this.beatSoundOffsetElem.innerHTML = offset;
+        this.clock.setListener(this, "beat-sound", this.beatSoundOffset);
     }
 
     public setRecordOffset(offset: number): void {
@@ -194,6 +226,14 @@ export default class Metronome extends Component implements ClockListener {
         
         if (name == "indicator") {
             this.indicatorElem.className = "indicator";
+        }
+
+        if (name == "beat-sound") {
+            if (this.beatSound && this.beatSound.isLoaded()) {
+                var beatVolume = this.currentBeat==1 ? 1 : 0.6;
+                this.beatSound.setVolume(beatVolume);
+                this.beatSound.play();
+            }
         }
 
         if (name == "record") {            
