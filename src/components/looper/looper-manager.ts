@@ -67,11 +67,13 @@ export default class LooperManager extends Component implements InputListener {
             if (event == InputEvent.TRIGGER) {
                 this.loopers[this.selectedLooperIndex].trigger();
             } else if (event == InputEvent.CLEAR) {
-                this.loopers[this.selectedLooperIndex].clear();
+                if (this.loopers[this.selectedLooperIndex].hasTrack()) {
+                    this.loopers[this.selectedLooperIndex].clear();
+                } else {
+                    this.popLooper();
+                }
             } else if (event == InputEvent.PUSH_TRACK) {
                 this.pushLooper();
-            } else if (event == InputEvent.POP_TRACK) {
-                this.popLooper();
             }
         }
 
